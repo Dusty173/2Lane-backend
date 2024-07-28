@@ -18,9 +18,6 @@
         "minLength": 6,
         "maxLength": 60,
         "format": "email"
-      },
-      "is_admin": {
-        "type": "boolean"
       }
     },
     "additionalProperties": false,

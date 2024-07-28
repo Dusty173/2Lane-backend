@@ -35,15 +35,13 @@ class User {
     );
     if (duplicateCheck.rows[0])
       throw new BadRequestError(`Username ${username} already exists.`);
-    
-  
 
     const hashedPassword = await bcrypt.hash(password, BCRYPT_WORK_FACTOR);
-
+    if (!is_admin) is_admin = false;
     const res = await db.query(
-      `INSERT INTO users (username, hashed_pw, email, is_admin) 
-        VALUES ($1, $2, $3, $4) RETURNING username, email, is_admin`,
-      [username, hashedPassword, email, is_admin]
+      `INSERT INTO users (username, hashed_pw, email, created_at, is_admin) 
+        VALUES ($1, $2, $3, $4, $5) RETURNING username, email, created_at, is_admin`,
+      [username, hashedPassword, email, new Date(), is_admin]
     );
 
     const user = res.rows[0];

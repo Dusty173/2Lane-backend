@@ -12,9 +12,6 @@
       "email": {
         "type": "string",
         "format": "email"
-      },
-      "is_admin": {
-        "type": "boolean"
       }
     },
     "required": [
