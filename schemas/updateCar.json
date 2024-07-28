@@ -1,0 +1,17 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "http://example.com/updateCarSchema.json",
+    "type": "object",
+    "properties": {
+      "make": {
+        "type": "string"
+      },
+      "model": {
+        "type": "string"
+      },
+      "model_year": {
+        "type": "number"
+      }
+    },
+    "required": []
+  }
