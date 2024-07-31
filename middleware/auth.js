@@ -20,6 +20,7 @@ function authenticateJWT(req, res, next) {
     if (authHeader) {
       const token = authHeader.replace(/^[Bb]earer /, "").trim();
       res.locals.user = jwt.verify(token, SECRET_KEY);
+      console.log("AJWT R.L.User:", res.locals);
     }
     return next();
   } catch (err) {

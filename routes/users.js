@@ -15,6 +15,16 @@ const userNewSchema = require("../schemas/userNew.json");
 const userUpdateSchema = require("../schemas/userUpdate.json");
 
 const router = express.Router();
+// Route for getting user for auth
+
+router.get("/:username", ensureCorrectUserOrAdmin, async (req, res, next) => {
+  try {
+    const user = await User.get(req.params.username);
+    return res.json({ user });
+  } catch (err) {
+    return next(err);
+  }
+});
 
 // Admin POST route for adding Users.
 
@@ -40,17 +50,6 @@ router.get("/", ensureAdmin, async (req, res, next) => {
   try {
     const users = await User.findAll();
     return res.json({ users });
-  } catch (err) {
-    return next(err);
-  }
-});
-
-// User/Admin route for getting a User
-
-router.get("/:username", ensureCorrectUserOrAdmin, async (req, res, next) => {
-  try {
-    const user = await User.get(req.params.username);
-    return res.json({ user });
   } catch (err) {
     return next(err);
   }
@@ -107,7 +106,7 @@ router.get(
 // User/Admin route for getting a list of User cars
 
 router.get(
-  "/:username/mygarage",
+  "/:username/cars",
   ensureCorrectUserOrAdmin,
   async (req, res, next) => {
     try {
