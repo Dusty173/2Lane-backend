@@ -20,7 +20,6 @@ function authenticateJWT(req, res, next) {
     if (authHeader) {
       const token = authHeader.replace(/^[Bb]earer /, "").trim();
       res.locals.user = jwt.verify(token, SECRET_KEY);
-      console.log("AJWT R.L.User:", res.locals);
     }
     return next();
   } catch (err) {
@@ -66,7 +65,9 @@ function ensureAdmin(req, res, next) {
 
 function ensureCorrectUserOrAdmin(req, res, next) {
   try {
+    console.log(res);
     const user = res.locals.user;
+    console.log(user);
     if (!(user && (user.is_admin || user.username === req.params.username))) {
       throw new UnauthorizedError();
     }
