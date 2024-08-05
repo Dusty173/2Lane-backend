@@ -10,7 +10,7 @@ class Car {
     const userId = userRes.rows[0].id;
 
     const res = await db.query(
-      `SELECT id, make, model, model_year FROM cars WHERE owner_id = $1 ORDER BY make DESC`,
+      `SELECT id, make, model, model_year FROM cars WHERE owner_id = $1 ORDER BY model_year DESC`,
       [userId]
     );
 
@@ -89,7 +89,7 @@ class Car {
     );
 
     const owner_id = ownerRes.rows[0].id;
-    
+
     console.log("owner id:", owner_id);
     console.log("carID:", carId);
     const res = await db.query(

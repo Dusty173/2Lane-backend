@@ -10,7 +10,7 @@
         "type": "string"
       },
       "model_year": {
-        "type": "number"
+        "type": "string"
       }
     },
     "required": [
