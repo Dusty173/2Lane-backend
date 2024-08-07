@@ -29,12 +29,14 @@ CREATE TABLE drives (
     title VARCHAR(30),
     description TEXT,
     route_link TEXT,
+    created_by INTEGER REFERENCES users ON DELETE CASCADE,
     created_at TIMESTAMP
 );
 
 CREATE TABLE users_drives(
     id SERIAL PRIMARY KEY,
     user_id INTEGER REFERENCES users ON DELETE CASCADE,
-    drive_id INTEGER REFERENCES drives ON DELETE CASCADE
+    drive_id INTEGER REFERENCES drives ON DELETE CASCADE,
+    car_id INTEGER REFERENCES cars ON DELETE CASCADE
 );
 

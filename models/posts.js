@@ -25,7 +25,13 @@ class Post {
   }
 
   static async create(data) {
-    const { title, body, user_id } = data;
+    const { title, body, username } = data;
+
+    const userRes = await db.query(`SELECT id FROM users WHERE username = $1`, [
+      username,
+    ]);
+
+    const user_id = userRes.rows[0].id;
 
     const res = await db.query(
       `INSERT INTO posts (title, body, user_id, created_at) 
