@@ -27,7 +27,7 @@ router.get("/", ensureLoggedIn, async (req, res, next) => {
 
 // User/Admin route for creating a post
 
-router.post("/new", ensureCorrectUserOrAdmin, async (req, res, next) => {
+router.post("/new", ensureLoggedIn, async (req, res, next) => {
   try {
     const validator = jsonschema.validate(req.body, createPostSchema);
     if (!validator.valid) {
@@ -60,7 +60,7 @@ router.patch("/:id", ensureCorrectUserOrAdmin, async (req, res, next) => {
       const errs = validator.errors.map((e) => e.stack);
       throw new BadRequestError(errs);
     }
-    const post = await Post.update(req.params.id, req.params.body);
+    const post = await Post.update(req.params.id, req.body);
     return res.json(post);
   } catch (err) {
     return next(err);
@@ -69,9 +69,9 @@ router.patch("/:id", ensureCorrectUserOrAdmin, async (req, res, next) => {
 
 // User/Admin route for removing a post
 
-router.delete("/:id", ensureCorrectUserOrAdmin, async (req, res, next) => {
+router.delete("/:id", ensureLoggedIn, async (req, res, next) => {
   try {
-    await Post.remove(req.params.id, req.body.user_id);
+    await Post.remove(req.params.id);
     return res.json({ deleted: req.params.id });
   } catch (err) {
     return next(err);

@@ -5,9 +5,10 @@ const { sqlForPartialUpdate } = require("../helpers/updateSql");
 class Post {
   static async getAll() {
     let res = await db.query(
-      `SELECT id, title, body, user_id, created_at FROM posts`
+      `SELECT p.id, p.title, p.body, p.user_id, p.created_at, u.username 
+      FROM posts AS p LEFT JOIN users AS u ON p.user_id = u.id 
+      ORDER BY p.created_at DESC `
     );
-
     if (!res) throw new NotFoundError("Unable to retrieve Posts");
 
     return res.rows;
@@ -15,7 +16,8 @@ class Post {
 
   static async get(id) {
     let res = await db.query(
-      `SELECT id, title, body, user_id, created_at FROM posts WHERE id = $1`,
+      `SELECT p.id, p.title, p.body, p.user_id, p.created_at, u.username FROM posts AS p 
+      INNER JOIN users AS u ON p.user_id = u.id WHERE p.id = $1`,
       [id]
     );
 
@@ -44,10 +46,10 @@ class Post {
     return post;
   }
 
-  static async remove(data) {
+  static async remove(id) {
     const res = await db.query(
-      `DELETE FROM posts WHERE id = $1 AND user_id = $2 RETURNING title`,
-      [data.id, data.userId]
+      `DELETE FROM posts WHERE id = $1 RETURNING title`,
+      [id]
     );
 
     let deleted = res.rows[0];
