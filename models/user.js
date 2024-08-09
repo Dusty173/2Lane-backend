@@ -135,9 +135,6 @@ class User {
   }
 
   static async updateUser(username, data) {
-    if (data.hashed_pw) {
-      data.hashed_pw = await bcrypt.hash(data.hashed_pw, BCRYPT_WORK_FACTOR);
-    }
     const { setCols, values } = sqlForPartialUpdate(data, {
       username: "username",
       email: "email",
